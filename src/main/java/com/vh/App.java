@@ -8,7 +8,10 @@ import com.vh.linkedList.impl.LinkedContainer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
@@ -52,5 +55,46 @@ public class App {
                 .collect(groupingBy(Function.identity(), counting()));
 
         hashMap.entrySet().forEach(System.out::println);
+
+        System.out.println("=================================");
+
+        double average = arrayList.stream()
+                .mapToDouble(value -> (double) value)
+                .average()
+                .orElse(Double.NaN);
+
+        System.out.println(average);
+
+        System.out.println("=================================");
+
+        IntStream.range(0, arrayList.size())
+                .reduce((a,b) -> arrayList.get(a) > arrayList.get(b) ? b : a)
+                .ifPresent(i -> System.out.println("Index " + i + ", MinValue " + arrayList.get(i)));
+
+        System.out.println("=================================");
+
+        long countNull = arrayList.stream()
+                .filter(x -> x == 0)
+                .count();
+
+        System.out.println(countNull);
+
+        System.out.println("=================================");
+
+        long countBiggerNull = arrayList.stream()
+                .filter(x -> x > 0)
+                .count();
+
+        System.out.println(countBiggerNull);
+
+        System.out.println("=================================");
+
+        int number = 2;
+
+        arrayList.stream()
+                .map(v -> v * number)
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
+
     }
 }
